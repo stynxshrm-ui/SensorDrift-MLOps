@@ -1,0 +1,68 @@
+mlflow:
+  # MLflow tracking server configuration
+  backend_store_uri: "sqlite:///mlruns/mlflow.db"
+  default_artifact_root: "mlruns/artifacts"
+  tracking_uri: "http://localhost:5000"
+  
+  # Experiment tracking
+  experiment_name: "sensor-drift-experiments"
+  
+  # Model registry
+  model_registry:
+    search_path: "mlruns/"
+    max_versions_to_keep: 10
+
+# Model training configuration
+training:
+  model_type: "xgboost"
+  random_seed: 42
+  test_size: 0.15
+  val_size: 0.15
+  
+  # XGBoost hyperparameters
+  xgboost:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    objective: "binary:logistic"
+    eval_metric: "logloss"
+
+# Drift detection configuration
+drift_detection:
+  methods:
+    - "kl_divergence"
+    - "psi"
+    - "ks_test"
+  
+  thresholds:
+    kl_divergence: 0.1
+    psi: 0.25
+    ks_test: 0.05
+  
+  monitoring_frequency: "daily"
+  alert_level: "high"
+
+# Retraining configuration
+retraining:
+  min_samples: 1000
+  performance_threshold: 0.02  # 2% improvement
+  retrain_frequency: "weekly"
+  max_retrain_attempts: 3
+  
+# API configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+  workers: 4
+
+# Dashboard configuration
+dashboard:
+  host: "0.0.0.0"
+  port: 8050
+  debug: true
+  update_interval: 10  # seconds
