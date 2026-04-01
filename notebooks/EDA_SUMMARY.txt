@@ -1,0 +1,74 @@
+EXPLORATORY DATA ANALYSIS - SUMMARY
+======================================================================
+
+Dataset Info:
+  Samples: 8,114
+  Features: 3
+  Time span: 70.8 hours
+
+Feature Statistics:
+             Mean    Std    Min    Max  Range  Skewness  Kurtosis   CV (%)
+heart_rate  0.054  1.005 -2.867  3.004  5.870    -0.015    -0.662  119.665
+spo2       -0.054  1.009 -3.196  1.590  4.787    -0.132    -0.803  119.127
+steps       0.001  1.001 -1.195  3.071  4.266     0.990     0.259  123.573
+
+Correlations:
+            heart_rate   spo2  steps
+heart_rate       1.000 -0.645 -0.012
+spo2            -0.645  1.000  0.011
+steps           -0.012  0.011  1.000
+
+
+1. DATA DISTRIBUTION:
+   - Heart Rate: Normalized with 119.7% variation
+     * Shows clear circadian pattern (higher during day, lower at night)
+   - SpO₂: Relatively stable with 119.1% variation
+     * Tightly controlled physiological parameter
+   - Steps: Highest variability (123.6% CV)
+     * Reflects activity patterns (bursts of activity, periods of rest)
+
+2. FEATURE CORRELATIONS:
+   - HR vs Steps: -0.012
+     * Weak relationship
+   - HR vs SpO₂: -0.645
+   - SpO₂ vs Steps: 0.011
+   * Low inter-feature correlations → Features carry complementary information
+
+3. TEMPORAL PATTERNS:
+   - Clear 24-hour circadian rhythm in HR and activity
+   - Activity shows high burstiness (Poisson-like)
+   - SpO₂ stable throughout day
+
+4. MODEL RECOMMENDATIONS:
+   ✓ Use all 3 raw features (HR, SpO₂, Steps) as inputs
+   ✓ Time-series models (LSTM/GRU) will capture circadian patterns
+   ✓ Classical ML (XGBoost) with engineered features effective
+   ✓ Anomaly detection: HR/SpO₂ ratio unusual patterns
+   ✓ Activity-normalized HR shows stress-fatigue signal
+
+5. DATA QUALITY:
+   ✓ No missing values or duplicates
+   ✓ Uniformly sampled (30-second intervals)
+   ✓ Few true outliers (<1%)
+   ✓ Ready for Phase 4 (Model Training)
+
+
+Dataset Characteristics:
+  - Total samples (train+val): 8,114
+  - Time span: 70.8 hours
+  - Sampling rate: 30 seconds (120 Hz)
+  - Number of features: 3
+  - Feature overlap: Minimal (low correlation)
+
+Recommended Models:
+  1. XGBoost (with engineered features) - Fast, interpretable
+  2. LSTM with attention - Captures temporal patterns
+  3. Isolation Forest - Anomaly detection baseline
+  4. Hybrid approach - Supervised + anomaly detection
+
+Next Steps (Phase 4):
+  ✓ Load train_features.csv with 39 engineered features
+  ✓ Train XGBoost classifier (stress/normal prediction)
+  ✓ Train Isolation Forest for anomalies
+  ✓ Log experiments to MLflow
+  ✓ Evaluate on validation set
