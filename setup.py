@@ -14,7 +14,7 @@ setup(
     description="Real-time wearable sensor drift detection with automated retraining",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/sensor-drift-mlops",
+    url="https://github.com/stynxshrm-ui/sensor-drift-mlops",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
